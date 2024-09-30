@@ -5,7 +5,7 @@
 /.vs
 /HexMapPathFinder/obj
 /HexMapPathFinder.Tests/obj
-/HexMapPathFinder/bin/Debug/net6.0
-/HexMapPathFinder.Tests/bin/Debug/net6.0
+/HexMapPathFinder.Tests/bin/
 /HexMapPathFinder/bin/Debug
-/HexMapPathFinder.Tests/bin/Release/net6.0
+/HexMapPathFinder.Tests/bin/
+/HexMapPathFinder/bin/Release

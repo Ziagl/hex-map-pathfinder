@@ -1,4 +1,4 @@
-# tiled-map-path-finder
+# hex-map-pathfinder
 A path finding library for hexagon maps.
 
 ## Sample images of usage in possible environment
@@ -14,30 +14,24 @@ It ignores tiles that are not passable. If no path is possible, it returns an em
 
 ## Sample code
 
-```typescript
-const exampleMap:number [] = [
-    1, 1, 2, 3,
-    1, 2, 1, 3,
-    2, 4, 8, 1,
-    3, 1, 2, 1
-];
-const pf = new PathFinder(exampleMap, 4, 4);
-const reachableTiles = pf.reachableTiles({q:0, r:0, s:0}, 2);
+```csharp
+List<int> costMap = new() { 1, 1, 2, 3, 1, 2, 1, 3, 2, 4, 8, 1, 3, 1, 2, 1 };
+var grid = HexGrid.InitializeGrid<Tile>(4, 4);
+HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
+var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
+var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0);
 // reachableTiles.length is 7
 ```
 
-Example usage of reachableTiles. It is important to initialize the component with a heatmap (a 2D map of all tiles used with movement value 0 -> not passable, >1 cost for passing). reachableTiles is called with a starting coordinate in cube coordinate system and a max cost value.
+Example usage of ReachableTiles. It is important to initialize the component with a heatmap (a 2D map of all tiles used with movement value 0 -> not passable, >1 cost for passing). reachableTiles is called with a starting coordinate in cube coordinate system and a max cost value.
 
-```typescript
-const exampleMap:number [] = [
-    1, 1, 2, 3,
-    1, 2, 1, 3,
-    2, 4, 8, 1,
-    3, 1, 2, 1
-];
-const pf = new PathFinder(exampleMap, 4, 4);
-const path = pf.computePathOffsetCoordinates({x:0,y:0}, {x:3,y:3});
-// path.length is 6
+```csharp
+List<int> costMap = new() { 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1 };
+var grid = HexGrid.InitializeGrid<Tile>(4, 4);
+HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
+var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
+var path = pathFinder.ComputePath(new CubeCoordinates(0, 0, 0), new CubeCoordinates(2, 3, -5), 0);
+// path.length is 7
 ```
 
-Example usage of computePath. Compute path is called with 2 cube coordinates for start and end. A second version computePathOffsetCoordinates does the same, but start and end can be passed as offset coordinates (normal x and y values in 2D space). It returns all tiles of shortest path.
+Example usage of ComputePath. Compute path is called with 2 cube coordinates for start and end. A second version computePathOffsetCoordinates does the same, but start and end can be passed as offset coordinates (normal x and y values in 2D space). It returns all tiles of shortest path.
