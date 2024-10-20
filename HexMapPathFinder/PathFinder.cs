@@ -217,4 +217,26 @@ public class PathFinder
         closedList.ForEach(tile => reachableTiles.Add(tile.Coordinates));
         return reachableTiles;
     }
+
+    /// <summary>
+    /// Returns coordinates of all neighbors of a given base tile. 
+    /// Minimum 2 (map edges), maximum 6.
+    /// </summary>
+    /// <param name="coordinates">Coordinates of base tile.</param>
+    /// <returns>List of neighbor coordinates.</returns>
+    public List<CubeCoordinates> NeighborTiles(CubeCoordinates coordinates)
+    {
+        List<HexTile> grid = HexGrid.InitializeGrid<HexTile>(_map.Rows, _map.Columns);
+        var tile = new HexTile()
+        {
+            Coordinates = coordinates,
+        };
+        var neighbors = tile.Neighbors(grid, _map.Rows, _map.Columns);
+        List<CubeCoordinates> neighborCoordinates = new();
+        foreach (var neighbor in neighbors)
+        {
+            neighborCoordinates.Add(neighbor.Coordinates);
+        }
+        return neighborCoordinates;
+    }
 }

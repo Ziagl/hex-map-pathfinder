@@ -82,4 +82,24 @@ public class PathFinderTests
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(1, 1, -2), 2, 1);
         Assert.Empty(reachableTiles);
     }
+
+    [Fact]
+    public void TestNeighborTiles()
+    {
+        var pathFinder = new PathFinder(new List<List<int>>(), 46, 74);
+        var baseCoordinate = new CubeCoordinates(0, 0, 0);
+        var neighborCoordinates = pathFinder.NeighborTiles(baseCoordinate);
+        Assert.Equal(2, neighborCoordinates.Count);
+        Assert.Contains(new CubeCoordinates(1, 0, -1), neighborCoordinates);
+        Assert.Contains(new CubeCoordinates(0, 1, -1), neighborCoordinates);
+        baseCoordinate = new CubeCoordinates(1, 1, -2);
+        neighborCoordinates = pathFinder.NeighborTiles(baseCoordinate);
+        Assert.Equal(6, neighborCoordinates.Count);
+        Assert.Contains(new CubeCoordinates(1, 0, -1), neighborCoordinates);
+        Assert.Contains(new CubeCoordinates(0, 1, -1), neighborCoordinates);
+        Assert.Contains(new CubeCoordinates(2, 0, -2), neighborCoordinates);
+        Assert.Contains(new CubeCoordinates(2, 1, -3), neighborCoordinates);
+        Assert.Contains(new CubeCoordinates(1, 2, -3), neighborCoordinates);
+        Assert.Contains(new CubeCoordinates(0, 2, -2), neighborCoordinates);
+    }
 }
