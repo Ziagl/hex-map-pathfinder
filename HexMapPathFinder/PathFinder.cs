@@ -181,24 +181,22 @@ public class PathFinder
             // remove tile from open list
             var tile = openList.First();
             openList.RemoveAt(0);
-            // and add it to closed list
-            closedList.Add(tile);
+            // and add it to closed list if it is not start and not already on list
+            if(!closedList.Contains(tile) && tile.Coordinates != start)
+            {
+                closedList.Add(tile);
+            }
             // if start tile is not passable, break
             if (_map.Map[layerIndex][start.ToOffset().x * _map.Rows + start.ToOffset().y] == 0)
             {
                 break;
             }
             // get neighbors walkable neighbors
-            var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
-            var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
+            var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns).Cast<Tile>().ToList();
+            var walkableNeighbors = neighbors; //Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
             // for every walkable neighbor
             foreach (var walkableNeighbor in walkableNeighbors)
             {
-                // if neighbor is in closed list, skip it
-                if (closedList.Contains(walkableNeighbor))
-                {
-                    continue;
-                }
                 // if neighbor is not in open list, add it
                 if (!openList.Contains(walkableNeighbor))
                 {

@@ -58,7 +58,7 @@ public class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0);
-        Assert.Equal(7, reachableTiles.Count);
+        Assert.Equal(6, reachableTiles.Count);
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(1, 1,-2), 2, 0);
-        Assert.Equal(12, reachableTiles.Count);
+        Assert.Equal(11, reachableTiles.Count);
     }
 
     [Fact]
@@ -101,5 +101,15 @@ public class PathFinderTests
         Assert.Contains(new CubeCoordinates(2, 1, -3), neighborCoordinates);
         Assert.Contains(new CubeCoordinates(1, 2, -3), neighborCoordinates);
         Assert.Contains(new CubeCoordinates(0, 2, -2), neighborCoordinates);
+    }
+
+    [Fact]
+    public void TestBugDistanceGreater2()
+    {
+        List<int> costMap = Enumerable.Repeat(1, 144).ToList();
+        var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 12, 12);
+        var baseCoordinate = new OffsetCoordinates(5, 5).ToCubic();
+        var reachableTiles = pathFinder.ReachableTiles(baseCoordinate, 3, 0);
+        Assert.Equal(36, reachableTiles.Count);
     }
 }
