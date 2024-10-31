@@ -55,7 +55,7 @@ public class PathFinder
                 break;
             }
             // if start tile is not passable, break
-            if (_map.Map[layerIndex][start.ToOffset().x * _map.Rows + start.ToOffset().y] == 0)
+            if (_map.Map[layerIndex][start.ToOffset().y * _map.Columns + start.ToOffset().x] == 0)
             {
                 pathFound = false;
                 break;
