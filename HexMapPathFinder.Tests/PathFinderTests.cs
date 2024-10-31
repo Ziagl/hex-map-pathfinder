@@ -112,4 +112,18 @@ public class PathFinderTests
         var reachableTiles = pathFinder.ReachableTiles(baseCoordinate, 3, 0);
         Assert.Equal(36, reachableTiles.Count);
     }
+
+    [Fact]
+    public void TestCreateWeightedPath()
+    {
+        List<int> costs = new() { 1, 1, 1, 1, 2, 1, 1, 1, 3, 1, 1, 1, 4, 1, 1, 1 };
+        var pathFinder = new PathFinder(new List<List<int>>() { costs }, 4, 4);
+        List<CubeCoordinates> path = new() { new CubeCoordinates(0, 0, 0),
+                                             new CubeCoordinates(0, 1, -1),
+                                             new CubeCoordinates(-1, 2, -1),
+                                             new CubeCoordinates(-1, 3, -2) };
+        var weightedPath = pathFinder.CreateWeightedPath(path, 0);
+        Assert.Equal(4, weightedPath.Count);
+        Assert.Equal(3, weightedPath[2].Cost);
+    }
 }

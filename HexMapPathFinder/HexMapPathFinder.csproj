@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Title>Hexagon Pathfinding Library</Title>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
     <Authors>Werner Ziegelwanger</Authors>
     <Product>$(AssemblyName)</Product>
     <Company>Hexagon Simulations</Company>
@@ -32,7 +32,7 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-	<PackageReference Include="HexMapBase" Version="0.1.9" />
+	<PackageReference Include="HexMapBase" Version="0.1.10" />
   </ItemGroup>
 
 </Project>

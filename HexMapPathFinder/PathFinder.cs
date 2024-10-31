@@ -1,4 +1,5 @@
 ﻿using com.hexagonsimulations.Geometry.Hex;
+using com.hexagonsimulations.Geometry.Hex.Models;
 using hex_map_pathfinder.Models;
 
 public class PathFinder
@@ -236,5 +237,31 @@ public class PathFinder
             neighborCoordinates.Add(neighbor.Coordinates);
         }
         return neighborCoordinates;
+    }
+
+    /// <summary>
+    /// Converts a path of CubeCoordinates into a weighted path
+    /// (added costs per coordinate).
+    /// </summary>
+    /// <param name="coordinates">The path of coordinates without cost values.</param>
+    /// <param name="layer">Layer for which weighted path should be computed.</param>
+    /// <returns>Weighted path.</returns>
+    public List<WeightedCubeCoordinates> CreateWeightedPath(List<CubeCoordinates> coordinates, int layer)
+    {
+        List<WeightedCubeCoordinates> weightedPath = new();
+        if (layer < 0 || layer >= _map.Map.Count || coordinates.Count == 0)
+        {
+            return weightedPath;
+        }
+        foreach (var coords in coordinates)
+        {
+            var offsetCoords = coords.ToOffset();
+            weightedPath.Add(new WeightedCubeCoordinates()
+            {
+                Coordinates = coords,
+                Cost = _map.Map[layer][offsetCoords.y * _map.Columns + offsetCoords.x]
+            });
+        }
+        return weightedPath;
     }
 }
