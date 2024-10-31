@@ -193,8 +193,8 @@ public class PathFinder
                 break;
             }
             // get neighbors walkable neighbors
-            var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns).Cast<Tile>().ToList();
-            var walkableNeighbors = neighbors; //Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
+            var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
+            var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
             // for every walkable neighbor
             foreach (var walkableNeighbor in walkableNeighbors)
             {
