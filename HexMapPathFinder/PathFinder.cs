@@ -235,18 +235,14 @@ public class PathFinder
                         if((property == TileProperty.RIVER && otherProperty == TileProperty.RIVERBANK) ||
                            (property == TileProperty.RIVERBANK && otherProperty == TileProperty.RIVER))
                         { 
-                            if (/*closedList.Count == 0*/tile.Coordinates == start)
-                            {
-                                // river can only passed by one field if it is neighbor of start
-                                //walkableNeighbor.MovementCost = int.MaxValue;
-                            }
-                            else
+                            if (tile.Coordinates != start)
                             {
                                 // river is not passable if unit comes from +1 distance
                                 continue;
                             }
                         }
 
+                        // normal behavior for river tiles
                         walkableNeighbor.MovementCost = int.MaxValue;
                     }
 

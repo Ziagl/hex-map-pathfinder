@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HexMapPathFinder", "HexMapPathFinder\HexMapPathFinder.csproj", "{E381189E-2901-4475-A385-C5A80A648D18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexMapPathFinder.Tests", "HexMapPathFinder.Tests\HexMapPathFinder.Tests.csproj", "{7D5EE9A9-91DA-414E-8D5B-682356F964FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexMapPathFinder.Tests", "HexMapPathFinder.Tests\HexMapPathFinder.Tests.csproj", "{49322E82-3273-422C-9F48-33F060922E31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{E381189E-2901-4475-A385-C5A80A648D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E381189E-2901-4475-A385-C5A80A648D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E381189E-2901-4475-A385-C5A80A648D18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D5EE9A9-91DA-414E-8D5B-682356F964FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D5EE9A9-91DA-414E-8D5B-682356F964FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D5EE9A9-91DA-414E-8D5B-682356F964FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D5EE9A9-91DA-414E-8D5B-682356F964FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49322E82-3273-422C-9F48-33F060922E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49322E82-3273-422C-9F48-33F060922E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49322E82-3273-422C-9F48-33F060922E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49322E82-3273-422C-9F48-33F060922E31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
