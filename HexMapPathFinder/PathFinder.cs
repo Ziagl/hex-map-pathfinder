@@ -8,10 +8,29 @@ public class PathFinder
     private MapData _map = new();
 
     public PathFinder(List<List<int>> costMap, int rows, int columns)
+        :this(costMap, new List<List<TileProperty>>(), rows, columns)
+    {
+    }
+
+    public PathFinder(List<List<int>> costMap, List<List<TileProperty>> propertyMap, int rows, int columns)
     {
         _map.Map = costMap;
         _map.Rows = rows;
         _map.Columns = columns;
+
+        if (propertyMap.Count == costMap.Count)
+        {
+            _map.PropertyMap = propertyMap;
+        }
+        else
+        {
+            // if no TileProperty map is given, create empty one
+            _map.PropertyMap = new();
+            for (int i = 0; i < costMap.Count; ++i)
+            {
+                _map.PropertyMap.Add(Enumerable.Repeat<TileProperty>(TileProperty.NONE, costMap[i].Count).ToList());
+            }
+        }
     }
 
     /// <summary>
@@ -202,8 +221,33 @@ public class PathFinder
                 if (!openList.Contains(walkableNeighbor))
                 {
                     var offset = walkableNeighbor.Coordinates.ToOffset();
-                    int tileMovementCost = _map.Map[layerIndex][offset.y * _map.Columns + offset.x];
+                    int index = offset.y * _map.Columns + offset.x;
+                    int tileMovementCost = _map.Map[layerIndex][index];
+                    TileProperty property = _map.PropertyMap[layerIndex][index];
                     walkableNeighbor.MovementCost = tile.MovementCost + tileMovementCost;
+                    
+                    // river tile logic
+                    if (property == TileProperty.RIVER || property == TileProperty.RIVERBANK)
+                    {
+                        var otherOffset = tile.Coordinates.ToOffset();
+                        var otherProperty = _map.PropertyMap[layerIndex][otherOffset.y * _map.Columns + otherOffset.x];
+
+                        if((property == TileProperty.RIVER && otherProperty == TileProperty.RIVERBANK) ||
+                           (property == TileProperty.RIVERBANK && otherProperty == TileProperty.RIVER))
+                        { 
+                            if (closedList.Count == 0)
+                            {
+                                // river can only passed by one field if it is neighbor of start
+                                walkableNeighbor.MovementCost = maxCost - 1;
+                            }
+                            else
+                            {
+                                // river is not passable if unit comes from +1 distance
+                                continue;
+                            }
+                        }
+                    }
+
                     if (tile.MovementCost < maxCost)
                     {
                         openList.Insert(0, walkableNeighbor);

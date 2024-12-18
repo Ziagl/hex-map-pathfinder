@@ -68,7 +68,7 @@ public class PathFinderTests
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
-        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(1, 1,-2), 2, 0);
+        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(1, 1, -2), 2, 0);
         Assert.Equal(11, reachableTiles.Count);
     }
 
@@ -125,5 +125,27 @@ public class PathFinderTests
         var weightedPath = pathFinder.CreateWeightedPath(path, 0);
         Assert.Equal(4, weightedPath.Count);
         Assert.Equal(3, weightedPath[2].Cost);
+    }
+
+    [Fact]
+    public void TestRiverReachableTiles()
+    {
+        List<int> costs = new() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        List<TileProperty> properties = new() {
+            TileProperty.NONE, TileProperty.NONE, TileProperty.RIVER, TileProperty.RIVERBANK, TileProperty.NONE,
+            TileProperty.NONE, TileProperty.NONE, TileProperty.RIVER, TileProperty.RIVERBANK, TileProperty.NONE,
+            TileProperty.NONE, TileProperty.NONE, TileProperty.RIVER, TileProperty.RIVERBANK, TileProperty.NONE,
+            TileProperty.NONE, TileProperty.NONE, TileProperty.RIVER, TileProperty.RIVERBANK, TileProperty.NONE,
+            TileProperty.NONE, TileProperty.NONE, TileProperty.RIVER, TileProperty.RIVERBANK, TileProperty.NONE
+        };
+        var pathFinder = new PathFinder(new List<List<int>>() { costs }, new List<List<TileProperty>>() { properties }, 5, 5);
+        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 4, 0);
+        Assert.Equal(14, reachableTiles.Count);
+        reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(2, 0, 0), 4, 0);
+        Assert.Equal(18, reachableTiles.Count);
+        reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(4, 0, 0), 4, 0);
+        Assert.Equal(10, reachableTiles.Count);
+        reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(3, 0, 0), 4, 0);
+        Assert.Equal(15, reachableTiles.Count);
     }
 }
