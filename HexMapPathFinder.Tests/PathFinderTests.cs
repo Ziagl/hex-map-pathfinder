@@ -142,10 +142,10 @@ public class PathFinderTests
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 4, 0);
         Assert.Equal(14, reachableTiles.Count);
         reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(2, 0, 0), 4, 0);
-        Assert.Equal(18, reachableTiles.Count);
+        Assert.Equal(16, reachableTiles.Count);
         reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(4, 0, 0), 4, 0);
-        Assert.Equal(10, reachableTiles.Count);
+        Assert.Equal(9, reachableTiles.Count);
         reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(3, 0, 0), 4, 0);
-        Assert.Equal(15, reachableTiles.Count);
+        Assert.Equal(10, reachableTiles.Count);
     }
 }

@@ -235,10 +235,10 @@ public class PathFinder
                         if((property == TileProperty.RIVER && otherProperty == TileProperty.RIVERBANK) ||
                            (property == TileProperty.RIVERBANK && otherProperty == TileProperty.RIVER))
                         { 
-                            if (closedList.Count == 0)
+                            if (/*closedList.Count == 0*/tile.Coordinates == start)
                             {
                                 // river can only passed by one field if it is neighbor of start
-                                walkableNeighbor.MovementCost = maxCost - 1;
+                                //walkableNeighbor.MovementCost = int.MaxValue;
                             }
                             else
                             {
@@ -246,6 +246,8 @@ public class PathFinder
                                 continue;
                             }
                         }
+
+                        walkableNeighbor.MovementCost = int.MaxValue;
                     }
 
                     if (tile.MovementCost < maxCost)
