@@ -300,10 +300,16 @@ public class PathFinder
         foreach (var coords in coordinates)
         {
             var offsetCoords = coords.ToOffset();
+            var cost = _map.Map[layer][offsetCoords.y * _map.Columns + offsetCoords.x];
+            if(_map.PropertyMap[layer][offsetCoords.y * _map.Columns + offsetCoords.x] == TileProperty.RIVER ||
+               _map.PropertyMap[layer][offsetCoords.y * _map.Columns + offsetCoords.x] == TileProperty.RIVERBANK)
+            {
+                cost = int.MaxValue;
+            }
             weightedPath.Add(new WeightedCubeCoordinates()
             {
                 Coordinates = coords,
-                Cost = _map.Map[layer][offsetCoords.y * _map.Columns + offsetCoords.x]
+                Cost = cost
             });
         }
         return weightedPath;
