@@ -1,4 +1,4 @@
-﻿namespace hex_map_pathfinder.Models;
+﻿namespace com.hexagonsimulations.HexMapPathfinder.Models;
 
 internal record MapData
 {

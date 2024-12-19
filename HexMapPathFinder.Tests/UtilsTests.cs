@@ -1,5 +1,5 @@
 ﻿using com.hexagonsimulations.Geometry.Hex;
-using hex_map_pathfinder.Models;
+using com.hexagonsimulations.HexMapPathfinder.Models;
 
 namespace com.hexagonsimulations.HexMapPathFinder.Tests;
 

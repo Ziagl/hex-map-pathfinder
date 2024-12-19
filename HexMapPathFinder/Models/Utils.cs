@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("HexMapPathFinder.Tests")]
 
-namespace hex_map_pathfinder.Models;
+namespace com.hexagonsimulations.HexMapPathfinder.Models;
 
 internal class Utils
 {

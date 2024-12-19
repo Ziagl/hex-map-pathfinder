@@ -1,6 +1,6 @@
 ﻿using com.hexagonsimulations.Geometry.Hex;
 
-namespace hex_map_pathfinder.Models;
+namespace com.hexagonsimulations.HexMapPathfinder.Models;
 
 internal class Tile : HexTile
 {
