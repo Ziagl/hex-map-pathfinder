@@ -1,4 +1,4 @@
-﻿using com.hexagonsimulations.Geometry.Hex;
+﻿using com.hexagonsimulations.HexMapBase.Geometry.Hex;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("HexMapPathFinder.Tests")]
