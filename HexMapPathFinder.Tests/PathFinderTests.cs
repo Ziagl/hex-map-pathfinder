@@ -1,4 +1,4 @@
-﻿using com.hexagonsimulations.HexMapBase.Geometry.Hex;
+﻿using com.hexagonsimulations.HexMapBase.Models;
 using com.hexagonsimulations.HexMapPathfinder;
 using com.hexagonsimulations.HexMapPathfinder.Models;
 
