@@ -88,11 +88,6 @@ public class PathFinder
             // get walkable neighbors
             var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
             var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
-            if(dynamicObstacles is not null)
-            {
-                // remove dynamic obstacles from walkable neighbors
-                walkableNeighbors.RemoveAll(t => dynamicObstacles.Contains(t.Coordinates));
-            }
             // for every walkable neighbor
             foreach (var walkableNeighbor in walkableNeighbors)
             {
@@ -109,7 +104,16 @@ public class PathFinder
                     walkableNeighbor.MovementCost = tile.MovementCost + tileMovementCost;
                     walkableNeighbor.EstimatedMovementCost = CubeCoordinates.Distance(walkableNeighbor.Coordinates, end);
                     walkableNeighbor.Sum = walkableNeighbor.MovementCost + walkableNeighbor.EstimatedMovementCost;
-                    openList.Add(walkableNeighbor);
+                    bool isObstacle = false;
+                    if(dynamicObstacles is not null)
+                    {
+                        isObstacle = dynamicObstacles.Contains(walkableNeighbor.Coordinates);
+                    }
+                    // obstacle should not be considered in path (target is only exception)
+                    if (!isObstacle)
+                    {
+                        openList.Add(walkableNeighbor);
+                    }
                 }
                 // if neighbor is in open list and has a lower cost, update it
                 else
