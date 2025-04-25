@@ -48,10 +48,6 @@ public class PathFinder
         {
             return new List<CubeCoordinates>();
         }
-        if (dynamicObstacles is not null)
-        {
-            dynamicObstacles.Remove(end);
-        }
         // create empty grid
         List<Tile> grid = HexGrid.InitializeGrid<Tile>(_map.Rows, _map.Columns);
         List<CubeCoordinates> path = new();
@@ -107,7 +103,7 @@ public class PathFinder
                     bool isObstacle = false;
                     if(dynamicObstacles is not null)
                     {
-                        isObstacle = dynamicObstacles.Contains(walkableNeighbor.Coordinates);
+                        isObstacle = dynamicObstacles.Contains(walkableNeighbor.Coordinates) && walkableNeighbor.Coordinates != end;
                     }
                     // obstacle should not be considered in path (target is only exception)
                     if (!isObstacle)
