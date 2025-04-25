@@ -48,6 +48,10 @@ public class PathFinder
         {
             return new List<CubeCoordinates>();
         }
+        if (dynamicObstacles is not null)
+        {
+            dynamicObstacles.Remove(end);
+        }
         // create empty grid
         List<Tile> grid = HexGrid.InitializeGrid<Tile>(_map.Rows, _map.Columns);
         List<CubeCoordinates> path = new();
@@ -84,10 +88,10 @@ public class PathFinder
             // get walkable neighbors
             var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
             var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
-            // filter out dynamic obstacles
-            if (dynamicObstacles is not null)
+            if(dynamicObstacles is not null)
             {
-                walkableNeighbors = walkableNeighbors.Where(t => !dynamicObstacles.Contains(t.Coordinates)).ToList();
+                // remove dynamic obstacles from walkable neighbors
+                walkableNeighbors.RemoveAll(t => dynamicObstacles.Contains(t.Coordinates));
             }
             // for every walkable neighbor
             foreach (var walkableNeighbor in walkableNeighbors)
@@ -219,14 +223,19 @@ public class PathFinder
             {
                 break;
             }
+            if (dynamicObstacles is not null)
+            {
+                if (dynamicObstacles.Contains(tile.Coordinates))
+                {
+                    // an obstacle gets into list of reachable tiles, but it is a dead end
+                    // for further traveling the map
+                    continue;
+                }
+
+            }
             // get neighbors walkable neighbors
             var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
             var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
-            // filter out dynamic obstacles
-            if (dynamicObstacles is not null)
-            {
-                walkableNeighbors = walkableNeighbors.Where(t => !dynamicObstacles.Contains(t.Coordinates)).ToList();
-            }
             // for every walkable neighbor
             foreach (var walkableNeighbor in walkableNeighbors)
             {
@@ -261,7 +270,7 @@ public class PathFinder
 
                     if (tile.MovementCost < maxCost)
                     {
-                        openList.Insert(0, walkableNeighbor);
+                        openList.Insert(0, walkableNeighbor); 
                     }
                 }
             }
