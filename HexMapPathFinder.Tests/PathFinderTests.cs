@@ -8,7 +8,7 @@ namespace com.hexagonsimulations.HexMapPathFinder.Tests;
 public sealed class PathFinderTests
 {
     [TestMethod]
-    public void TestComputePath()
+    public void ComputePath()
     {
         List<int> costMap = new() { 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1 };
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
@@ -19,7 +19,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestComputePathOffsetCoordinates()
+    public void ComputePathOffsetCoordinates()
     {
         List<int> costMap = new() { 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1 };
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
@@ -30,7 +30,20 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestFindComplexPath()
+    public void ComputePathWithObstacles()
+    {
+        List<int> costMap = new() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        var grid = HexGrid.InitializeGrid<Tile>(4, 4);
+        HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
+        var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
+        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 1, -2), new CubeCoordinates(2, 1, -3),
+                                                             new CubeCoordinates(0, 2, -2), new CubeCoordinates(1, 2, -3)};
+        var path = pathFinder.ComputePath(new CubeCoordinates(0, 0, 0), new CubeCoordinates(2, 3, -5), 0, dynamicObstacles);
+        Assert.AreEqual(7, path.Count);
+    }
+
+    [TestMethod]
+    public void FindComplexPath()
     {
         List<int> costMap = new() { 1, 1, 2, 3, 1, 2, 1, 3, 2, 4, 8, 1, 3, 1, 2, 1 };
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
@@ -41,7 +54,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestNoPossiblePath()
+    public void NoPossiblePath()
     {
         List<int> costMap = new() { 1, 1, 2, 1, 1, 2, 3, 3, 2, 2, 8, 0, 1, 1, 0, 1 };
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
@@ -52,7 +65,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestReachableTiles()
+    public void ReachableTiles()
     {
         List<int> costMap = new() { 1, 1, 2, 3, 1, 2, 1, 3, 2, 4, 8, 1, 3, 1, 2, 1 };
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
@@ -63,7 +76,20 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestReachableTiles2()
+    public void ReachableTilesWithObstacles()
+    {
+        List<int> costMap = new() { 1, 1, 2, 3, 1, 2, 1, 3, 2, 4, 8, 1, 3, 1, 2, 1 };
+        var grid = HexGrid.InitializeGrid<Tile>(4, 4);
+        HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
+        var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
+        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 1, -2), new CubeCoordinates(2, 1, -3),
+                                                             new CubeCoordinates(0, 2, -2), new CubeCoordinates(1, 2, -3)};
+        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0, dynamicObstacles);
+        Assert.AreEqual(4, reachableTiles.Count);
+    }
+
+    [TestMethod]
+    public void ReachableTiles2()
     {
         List<int> costMap = new() { 8, 8, 8, 3, 8, 1, 1, 4, 8, 8, 1, 1, 3, 9, 1, 2 };
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
@@ -74,7 +100,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestWrongLayer()
+    public void WrongLayer()
     {
         List<int> costMap = new() { 8, 8, 8, 3, 8, 1, 1, 4, 8, 8, 1, 1, 3, 9, 1, 2 };
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
@@ -85,7 +111,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestNeighborTiles()
+    public void NeighborTiles()
     {
         var pathFinder = new PathFinder(new List<List<int>>(), 46, 74);
         var baseCoordinate = new CubeCoordinates(0, 0, 0);
@@ -105,7 +131,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestBugDistanceGreater2()
+    public void BugDistanceGreater2()
     {
         List<int> costMap = Enumerable.Repeat(1, 144).ToList();
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 12, 12);
@@ -115,7 +141,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestCreateWeightedPath()
+    public void CreateWeightedPath()
     {
         List<int> costs = new() { 1, 1, 1, 1, 2, 1, 1, 1, 3, 1, 1, 1, 4, 1, 1, 1 };
         var pathFinder = new PathFinder(new List<List<int>>() { costs }, 4, 4);
@@ -129,7 +155,7 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
-    public void TestRiverReachableTiles()
+    public void RiverReachableTiles()
     {
         List<int> costs = new() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         List<TileProperty> properties = new() {

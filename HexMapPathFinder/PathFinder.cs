@@ -40,8 +40,9 @@ public class PathFinder
     /// <param name="start">start coordinates</param>
     /// <param name="end">end coordinates</param>
     /// <param name="layerIndex">layer index</param>
+    /// <param name="dynamicObstacles">optional list of obstacles</param>
     /// <returns>path as cube coordinates or empty path if no path was found or layer is out of bounds</returns>
-    public List<CubeCoordinates> ComputePath(CubeCoordinates start, CubeCoordinates end, int layerIndex)
+    public List<CubeCoordinates> ComputePath(CubeCoordinates start, CubeCoordinates end, int layerIndex, List<CubeCoordinates>? dynamicObstacles = null)
     {
         if (layerIndex < 0 || layerIndex >= _map.Map.Count)
         {
@@ -83,6 +84,11 @@ public class PathFinder
             // get walkable neighbors
             var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
             var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
+            // filter out dynamic obstacles
+            if (dynamicObstacles is not null)
+            {
+                walkableNeighbors = walkableNeighbors.Where(t => !dynamicObstacles.Contains(t.Coordinates)).ToList();
+            }
             // for every walkable neighbor
             foreach (var walkableNeighbor in walkableNeighbors)
             {
@@ -178,8 +184,9 @@ public class PathFinder
     /// <param name="start">start coordinates</param>
     /// <param name="maxCost">maximum cost</param>
     /// <param name="layerIndex">layer index</param>
+    /// <param name="dynamicObstacles">optional list of obstacles</param>
     /// <returns>reachable tiles as cube coordinates or empty path if layer is out of bounds</returns>
-    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex)
+    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex, List<CubeCoordinates>? dynamicObstacles = null)
     {
         if (layerIndex < 0 || layerIndex >= _map.Map.Count)
         {
@@ -215,6 +222,11 @@ public class PathFinder
             // get neighbors walkable neighbors
             var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
             var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
+            // filter out dynamic obstacles
+            if (dynamicObstacles is not null)
+            {
+                walkableNeighbors = walkableNeighbors.Where(t => !dynamicObstacles.Contains(t.Coordinates)).ToList();
+            }
             // for every walkable neighbor
             foreach (var walkableNeighbor in walkableNeighbors)
             {

@@ -7,7 +7,7 @@ namespace com.hexagonsimulations.HexMapPathFinder.Tests;
 public sealed class UtilsTests
 {
     [TestMethod]
-    public void TestShuffle()
+    public void Shuffle()
     {
         List<int> list = new() { 1, 2, 3, 4, 5 };
         list = Utils.Shuffle(list);
@@ -15,7 +15,7 @@ public sealed class UtilsTests
     }
 
     [TestMethod]
-    public void TestWalkableNeighbors()
+    public void WalkableNeighbors()
     {
         List<int> costMap = new() { 2, 1, 1, 2, 1, 0, 0, 1, 2, 0, 0, 1, 1, 1, 1, 1 };
         var grid = HexGrid.InitializeGrid<HexTile>(4, 4);
