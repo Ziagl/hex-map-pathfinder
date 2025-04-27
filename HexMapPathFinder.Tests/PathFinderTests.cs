@@ -104,6 +104,22 @@ public sealed class PathFinderTests
     }
 
     [TestMethod]
+    public void AttackableTiles()
+    {
+        List<int> costMap = new() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        var grid = HexGrid.InitializeGrid<Tile>(4, 4);
+        var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
+        var attackableTiles = pathFinder.AttackableTiles(new CubeCoordinates(0, 0, 0), 2, 2, 0, new List<CubeCoordinates>(), new List<CubeCoordinates>()
+        {
+            new CubeCoordinates(1, 0, -1),
+            new CubeCoordinates(2, 1, -3),
+            new CubeCoordinates(2, 2, -4),
+            new CubeCoordinates(-1, 2, -1)
+        });
+        Assert.AreEqual(3, attackableTiles.Count);
+    }
+
+    [TestMethod]
     public void WrongLayer()
     {
         List<int> costMap = new() { 8, 8, 8, 3, 8, 1, 1, 4, 8, 8, 1, 1, 3, 9, 1, 2 };

@@ -282,6 +282,36 @@ public class PathFinder
     }
 
     /// <summary>
+    /// Returns all tiles that are in range and can be attacked.
+    /// </summary>
+    /// <param name="start">start coordinates</param>
+    /// <param name="maxCost">maximum cost</param>
+    /// <param name="maxRange">maximum attack range of this unit</param>
+    /// <param name="layerIndex">layer index</param>
+    /// <param name="dynamicObstacles">list of obstacle position</param>
+    /// <param name="enemies">list of enemy positions</param>
+    /// <returns></returns>
+    public List<CubeCoordinates> AttackableTiles(CubeCoordinates start, int maxCost, int maxRange, int layerIndex, List<CubeCoordinates> dynamicObstacles, List<CubeCoordinates> enemies)
+    {
+        // compute maximum movement so that at least 1 movement point is left for attack
+        int maxMovement = maxCost - 1;
+        var reachableTiles = ReachableTiles(start, maxMovement, layerIndex, dynamicObstacles);
+        HashSet<CubeCoordinates> attackableTiles = new();
+        foreach(var reachableTile in reachableTiles)
+        {
+            // check if enemy is in range
+            foreach(var enemy in enemies)
+            {
+                if (CubeCoordinates.Distance(reachableTile, enemy) <= maxRange)
+                {
+                    attackableTiles.Add(enemy);
+                }
+            }
+        }
+        return attackableTiles.ToList();
+    }
+
+    /// <summary>
     /// Returns coordinates of all neighbors of a given base tile. 
     /// Minimum 2 (map edges), maximum 6.
     /// </summary>
