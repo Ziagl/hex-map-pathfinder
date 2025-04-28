@@ -36,7 +36,7 @@ public sealed class PathFinderTests
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
-        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1), new CubeCoordinates(1, 1, -2)};
+        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(0, 0, 0), new CubeCoordinates(1, 0, -1), new CubeCoordinates(1, 1, -2)};
         // test for different possible paths
         for (int i = 0; i < 10; ++i)
         {
@@ -86,8 +86,9 @@ public sealed class PathFinderTests
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
-        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 1, -2), new CubeCoordinates(2, 1, -3),
-                                                             new CubeCoordinates(0, 2, -2), new CubeCoordinates(0, 1, -1)};
+        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(0, 0, 0), new CubeCoordinates(1, 1, -2), 
+                                                             new CubeCoordinates(2, 1, -3), new CubeCoordinates(0, 2, -2),
+                                                             new CubeCoordinates(0, 1, -1)};
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0, dynamicObstacles);
         Assert.AreEqual(4, reachableTiles.Count);
     }

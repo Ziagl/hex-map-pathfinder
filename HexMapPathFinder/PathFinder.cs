@@ -225,7 +225,7 @@ public class PathFinder
             }
             if (dynamicObstacles is not null)
             {
-                if (dynamicObstacles.Contains(tile.Coordinates))
+                if (dynamicObstacles.Contains(tile.Coordinates) && tile.Coordinates != start)
                 {
                     // an obstacle gets into list of reachable tiles, but it is a dead end
                     // for further traveling the map
