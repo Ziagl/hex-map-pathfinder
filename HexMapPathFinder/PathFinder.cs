@@ -40,9 +40,9 @@ public class PathFinder
     /// <param name="start">start coordinates</param>
     /// <param name="end">end coordinates</param>
     /// <param name="layerIndex">layer index</param>
-    /// <param name="dynamicObstacles">optional list of obstacles</param>
+    /// <param name="blockingObstacles">optional list of obstacles that block the path (enemy units)</param>
     /// <returns>path as cube coordinates or empty path if no path was found or layer is out of bounds</returns>
-    public List<CubeCoordinates> ComputePath(CubeCoordinates start, CubeCoordinates end, int layerIndex, List<CubeCoordinates>? dynamicObstacles = null)
+    public List<CubeCoordinates> ComputePath(CubeCoordinates start, CubeCoordinates end, int layerIndex, List<CubeCoordinates>? blockingObstacles = null)
     {
         if (layerIndex < 0 || layerIndex >= _map.Map.Count)
         {
@@ -81,6 +81,15 @@ public class PathFinder
                 pathFound = false;
                 break;
             }
+            if (blockingObstacles is not null)
+            {
+                if (blockingObstacles.Contains(tile.Coordinates) && tile.Coordinates != start)
+                {
+                    // an obstacle gets into list of reachable tiles, but it is a dead end
+                    // for further traveling the map
+                    continue;
+                }
+            }
             // get walkable neighbors
             var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
             var walkableNeighbors = Utils.WalkableNeighbors(neighbors, _map.Map[layerIndex], _map.Columns).Cast<Tile>().ToList();
@@ -101,9 +110,9 @@ public class PathFinder
                     walkableNeighbor.EstimatedMovementCost = CubeCoordinates.Distance(walkableNeighbor.Coordinates, end);
                     walkableNeighbor.Sum = walkableNeighbor.MovementCost + walkableNeighbor.EstimatedMovementCost;
                     bool isObstacle = false;
-                    if(dynamicObstacles is not null)
+                    if(blockingObstacles is not null)
                     {
-                        isObstacle = dynamicObstacles.Contains(walkableNeighbor.Coordinates) && walkableNeighbor.Coordinates != end;
+                        isObstacle = blockingObstacles.Contains(walkableNeighbor.Coordinates) && walkableNeighbor.Coordinates != end;
                     }
                     // obstacle should not be considered in path (target is only exception)
                     if (!isObstacle)
@@ -188,9 +197,10 @@ public class PathFinder
     /// <param name="start">start coordinates</param>
     /// <param name="maxCost">maximum cost</param>
     /// <param name="layerIndex">layer index</param>
-    /// <param name="dynamicObstacles">optional list of obstacles</param>
+    /// <param name="blockingObstacles">optional list of obstacles that block the path (enemy units)</param>
+    /// <param name="nonBlockingObstacles">optional list of obstacles that are not passable, but do not block the path (friendly units)</param>
     /// <returns>reachable tiles as cube coordinates or empty path if layer is out of bounds</returns>
-    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex, List<CubeCoordinates>? dynamicObstacles = null)
+    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex, List<CubeCoordinates>? blockingObstacles = null, List<CubeCoordinates>? nonBlockingObstacles = null)
     {
         if (layerIndex < 0 || layerIndex >= _map.Map.Count)
         {
@@ -216,22 +226,21 @@ public class PathFinder
             // and add it to closed list if it is not start and not already on list
             if(!closedList.Contains(tile) && tile.Coordinates != start)
             {
-                closedList.Add(tile);
+                bool isObstacle = false;
+                if (nonBlockingObstacles is not null)
+                {
+                    isObstacle = nonBlockingObstacles.Contains(tile.Coordinates);
+                }
+                // obstacle should not be considered in reachable tiles
+                if (!isObstacle)
+                {
+                    closedList.Add(tile);
+                }
             }
             // if start tile is not passable, break
             if (_map.Map[layerIndex][start.ToOffset().y * _map.Columns + start.ToOffset().x] == 0)
             {
                 break;
-            }
-            if (dynamicObstacles is not null)
-            {
-                if (dynamicObstacles.Contains(tile.Coordinates) && tile.Coordinates != start)
-                {
-                    // an obstacle gets into list of reachable tiles, but it is a dead end
-                    // for further traveling the map
-                    continue;
-                }
-
             }
             // get neighbors walkable neighbors
             var neighbors = tile.Neighbors(grid.Cast<HexTile>().ToList(), _map.Rows, _map.Columns);
@@ -270,7 +279,15 @@ public class PathFinder
 
                     if (tile.MovementCost < maxCost)
                     {
-                        openList.Insert(0, walkableNeighbor); 
+                        bool isObstacle = false;
+                        if (blockingObstacles is not null)
+                        {
+                            isObstacle = blockingObstacles.Contains(walkableNeighbor.Coordinates);
+                        }
+                        if (!isObstacle)
+                        {
+                            openList.Insert(0, walkableNeighbor); 
+                        }
                     }
                 }
             }

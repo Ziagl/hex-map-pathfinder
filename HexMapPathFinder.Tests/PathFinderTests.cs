@@ -36,11 +36,11 @@ public sealed class PathFinderTests
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
-        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(0, 0, 0), new CubeCoordinates(1, 0, -1), new CubeCoordinates(1, 1, -2)};
+        var blockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1) };
         // test for different possible paths
         for (int i = 0; i < 10; ++i)
         {
-            var path = pathFinder.ComputePath(new CubeCoordinates(0, 0, 0), new CubeCoordinates(1, 1, -2), 0, dynamicObstacles);
+            var path = pathFinder.ComputePath(new CubeCoordinates(0, 0, 0), new CubeCoordinates(1, 1, -2), 0, blockingObstacles);
             Assert.AreNotEqual(path[1], new CubeCoordinates(1, 0, -1), "Obstacle is part of path.");
             Assert.AreEqual(3, path.Count);
         }
@@ -86,11 +86,10 @@ public sealed class PathFinderTests
         var grid = HexGrid.InitializeGrid<Tile>(4, 4);
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
-        var dynamicObstacles = new List<CubeCoordinates>() { new CubeCoordinates(0, 0, 0), new CubeCoordinates(1, 1, -2), 
-                                                             new CubeCoordinates(2, 1, -3), new CubeCoordinates(0, 2, -2),
-                                                             new CubeCoordinates(0, 1, -1)};
-        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0, dynamicObstacles);
-        Assert.AreEqual(4, reachableTiles.Count);
+        var blockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1) };
+        var nonBlockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(0, 0, 0), new CubeCoordinates(0, 1, -1) };
+        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0, blockingObstacles, nonBlockingObstacles);
+        Assert.AreEqual(3, reachableTiles.Count);
     }
 
     [TestMethod]
