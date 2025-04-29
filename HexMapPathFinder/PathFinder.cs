@@ -280,6 +280,7 @@ public class PathFinder
                     if (tile.MovementCost < maxCost)
                     {
                         bool isObstacle = false;
+
                         if (blockingObstacles is not null)
                         {
                             isObstacle = blockingObstacles.Contains(walkableNeighbor.Coordinates);
@@ -305,19 +306,19 @@ public class PathFinder
     /// <param name="maxCost">maximum cost</param>
     /// <param name="maxRange">maximum attack range of this unit</param>
     /// <param name="layerIndex">layer index</param>
-    /// <param name="dynamicObstacles">list of obstacle position</param>
+    /// <param name="nonBlockingObstacles">list of non blocking obstacle position (friendly units)</param>
     /// <param name="enemies">list of enemy positions</param>
     /// <returns></returns>
-    public List<CubeCoordinates> AttackableTiles(CubeCoordinates start, int maxCost, int maxRange, int layerIndex, List<CubeCoordinates> dynamicObstacles, List<CubeCoordinates> enemies)
+    public List<CubeCoordinates> AttackableTiles(CubeCoordinates start, int maxCost, int maxRange, int layerIndex, List<CubeCoordinates> nonBlockingObstacles, List<CubeCoordinates> enemies)
     {
         // compute maximum movement so that at least 1 movement point is left for attack
         int maxMovement = maxCost - 1;
-        var reachableTiles = ReachableTiles(start, maxMovement, layerIndex, dynamicObstacles);
+        var reachableTiles = ReachableTiles(start, maxMovement, layerIndex, enemies, nonBlockingObstacles);
         HashSet<CubeCoordinates> attackableTiles = new();
-        foreach(var reachableTile in reachableTiles)
+        // check if enemy is in range
+        foreach(var enemy in enemies)
         {
-            // check if enemy is in range
-            foreach(var enemy in enemies)
+            foreach(var reachableTile in reachableTiles)
             {
                 if (CubeCoordinates.Distance(reachableTile, enemy) <= maxRange)
                 {
