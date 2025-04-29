@@ -117,6 +117,12 @@ public sealed class PathFinderTests
             new CubeCoordinates(-1, 2, -1)
         });
         Assert.AreEqual(3, attackableTiles.Count);
+        // test complex case with lead to errors
+        var blockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1), new CubeCoordinates(2, 1, -3), 
+                                                              new CubeCoordinates(0, 2, -2), new CubeCoordinates(1, 2, -3) };
+        var nonBlockingObstacles = new List<CubeCoordinates>() { };
+        attackableTiles = pathFinder.AttackableTiles(new CubeCoordinates(1, 1, -2), 2, 1, 0, nonBlockingObstacles, blockingObstacles);
+        Assert.AreEqual(4, attackableTiles.Count);
     }
 
     [TestMethod]

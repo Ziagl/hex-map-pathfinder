@@ -315,11 +315,12 @@ public class PathFinder
         // compute maximum movement so that at least 1 movement point is left for attack
         int maxMovement = maxCost - 1;
         var reachableTiles = ReachableTiles(start, maxMovement, layerIndex, enemies, nonBlockingObstacles);
+        reachableTiles.Add(start);
         HashSet<CubeCoordinates> attackableTiles = new();
         // check if enemy is in range
-        foreach(var enemy in enemies)
+        foreach(var reachableTile in reachableTiles)
         {
-            foreach(var reachableTile in reachableTiles)
+            foreach(var enemy in enemies)
             {
                 if (CubeCoordinates.Distance(reachableTile, enemy) <= maxRange)
                 {
