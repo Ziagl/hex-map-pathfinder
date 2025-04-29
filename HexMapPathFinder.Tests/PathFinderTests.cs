@@ -88,7 +88,7 @@ public sealed class PathFinderTests
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var blockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1) };
         var nonBlockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(0, 0, 0), new CubeCoordinates(0, 1, -1) };
-        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0, blockingObstacles, nonBlockingObstacles);
+        var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0, nonBlockingObstacles, blockingObstacles);
         Assert.AreEqual(3, reachableTiles.Count);
     }
 

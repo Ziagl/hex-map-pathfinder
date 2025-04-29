@@ -197,10 +197,10 @@ public class PathFinder
     /// <param name="start">start coordinates</param>
     /// <param name="maxCost">maximum cost</param>
     /// <param name="layerIndex">layer index</param>
-    /// <param name="blockingObstacles">optional list of obstacles that block the path (enemy units)</param>
     /// <param name="nonBlockingObstacles">optional list of obstacles that are not passable, but do not block the path (friendly units)</param>
+    /// <param name="blockingObstacles">optional list of obstacles that block the path (enemy units)</param>
     /// <returns>reachable tiles as cube coordinates or empty path if layer is out of bounds</returns>
-    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex, List<CubeCoordinates>? blockingObstacles = null, List<CubeCoordinates>? nonBlockingObstacles = null)
+    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex, List<CubeCoordinates>? nonBlockingObstacles = null, List<CubeCoordinates>? blockingObstacles = null)
     {
         if (layerIndex < 0 || layerIndex >= _map.Map.Count)
         {
@@ -308,6 +308,7 @@ public class PathFinder
     /// <param name="layerIndex">layer index</param>
     /// <param name="nonBlockingObstacles">list of non blocking obstacle position (friendly units)</param>
     /// <param name="enemies">list of enemy positions</param>
+    /// <param name="enemies">optional list of enemy unit positions</param>
     /// <returns></returns>
     public List<CubeCoordinates> AttackableTiles(CubeCoordinates start, int maxCost, int maxRange, int layerIndex, List<CubeCoordinates> nonBlockingObstacles, List<CubeCoordinates> enemies)
     {
