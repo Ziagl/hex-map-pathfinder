@@ -117,7 +117,15 @@ public sealed class PathFinderTests
             new CubeCoordinates(-1, 2, -1)
         });
         Assert.AreEqual(3, attackableTiles.Count);
-        // test complex case with lead to errors
+        attackableTiles = pathFinder.AttackableTiles(new CubeCoordinates(0, 0, 0), 0, 2, 0, new List<CubeCoordinates>(), new List<CubeCoordinates>()
+        {
+            new CubeCoordinates(1, 0, -1),
+            new CubeCoordinates(2, 1, -3),
+            new CubeCoordinates(2, 2, -4),
+            new CubeCoordinates(-1, 2, -1)
+        });
+        Assert.AreEqual(0, attackableTiles.Count, $"With maxCost there should not be any attackable tiles, but found {attackableTiles.Count}");
+        // test complex case which leads to errors
         var blockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1), new CubeCoordinates(2, 1, -3), 
                                                               new CubeCoordinates(0, 2, -2), new CubeCoordinates(1, 2, -3) };
         var nonBlockingObstacles = new List<CubeCoordinates>() { };
