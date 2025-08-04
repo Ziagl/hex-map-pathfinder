@@ -42,7 +42,7 @@ public class PathFinder
     /// <param name="layerIndex">layer index</param>
     /// <param name="blockingObstacles">optional list of obstacles that block the path (enemy units)</param>
     /// <returns>path as cube coordinates or empty path if no path was found or layer is out of bounds</returns>
-    public List<CubeCoordinates> ComputePath(CubeCoordinates start, CubeCoordinates end, int layerIndex, List<CubeCoordinates>? blockingObstacles = null)
+    public List<CubeCoordinates> ComputePath(CubeCoordinates start, CubeCoordinates end, int layerIndex, IReadOnlyCollection<CubeCoordinates>? blockingObstacles = null)
     {
         if (layerIndex < 0 || layerIndex >= _map.Map.Count)
         {
@@ -200,7 +200,7 @@ public class PathFinder
     /// <param name="nonBlockingObstacles">optional list of obstacles that are not passable, but do not block the path (friendly units)</param>
     /// <param name="blockingObstacles">optional list of obstacles that block the path (enemy units)</param>
     /// <returns>reachable tiles as cube coordinates or empty path if layer is out of bounds</returns>
-    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex, List<CubeCoordinates>? nonBlockingObstacles = null, List<CubeCoordinates>? blockingObstacles = null)
+    public List<CubeCoordinates> ReachableTiles(CubeCoordinates start, int maxCost, int layerIndex, IReadOnlyCollection<CubeCoordinates>? nonBlockingObstacles = null, IReadOnlyCollection<CubeCoordinates>? blockingObstacles = null)
     {
         if (layerIndex < 0 || layerIndex >= _map.Map.Count)
         {
@@ -310,7 +310,7 @@ public class PathFinder
     /// <param name="enemies">list of enemy positions</param>
     /// <param name="enemies">optional list of enemy unit positions</param>
     /// <returns></returns>
-    public List<CubeCoordinates> AttackableTiles(CubeCoordinates start, int maxCost, int maxRange, int layerIndex, List<CubeCoordinates> nonBlockingObstacles, List<CubeCoordinates> enemies)
+    public List<CubeCoordinates> AttackableTiles(CubeCoordinates start, int maxCost, int maxRange, int layerIndex, IReadOnlyCollection<CubeCoordinates> nonBlockingObstacles, IReadOnlyCollection<CubeCoordinates> enemies)
     {
         // compute maximum movement so that at least 1 movement point is left for attack
         int maxMovement = maxCost - 1;
