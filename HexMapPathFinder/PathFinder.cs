@@ -34,6 +34,11 @@ public class PathFinder
         }
     }
 
+    private PathFinder(MapData map)
+    {
+        _map = map;
+    }
+
     /// <summary>
     /// Computes path with lowest costs from start to end (A* algorithm).
     /// </summary>
@@ -387,5 +392,31 @@ public class PathFinder
             });
         }
         return weightedPath;
+    }
+
+    public string ToJson()
+    {
+        return _map.ToJson();
+    }
+
+    public static PathFinder FromJson(string json)
+    {
+        return new PathFinder(MapData.FromJson(json));
+    }
+
+    /// <summary>
+    /// Write this PathFinder (its underlying MapData) to a binary stream.
+    /// </summary>
+    public void Write(BinaryWriter writer)
+    {
+        _map.Write(writer);
+    }
+
+    /// <summary>
+    /// Read a PathFinder instance (with underlying MapData) from a binary stream.
+    /// </summary>
+    public static PathFinder Read(BinaryReader reader)
+    {
+        return new PathFinder(MapData.Read(reader));
     }
 }
