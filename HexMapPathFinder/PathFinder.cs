@@ -1,5 +1,6 @@
 ﻿using com.hexagonsimulations.HexMapBase.Models;
 using com.hexagonsimulations.HexMapPathfinder.Models;
+using System.Text.Json;
 
 namespace com.hexagonsimulations.HexMapPathfinder;
 
@@ -408,14 +409,14 @@ public class PathFinder
         return weightedPath;
     }
 
-    public string ToJson()
+    public string ToJson(JsonSerializerOptions? options = null)
     {
-        return _map.ToJson();
+        return _map.ToJson(options);
     }
 
-    public static PathFinder FromJson(string json)
+    public static PathFinder FromJson(string json, JsonSerializerOptions? options = null)
     {
-        return new PathFinder(MapData.FromJson(json));
+        return new PathFinder(MapData.FromJson(json, options));
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Encodings.Web;
 
 namespace com.hexagonsimulations.HexMapPathfinder.Models;
 
@@ -14,26 +15,27 @@ internal record MapData
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         WriteIndented = false,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         Converters = { new JsonStringEnumConverter() }
     };
 
     /// <summary>
     /// Serialize this MapData instance to a JSON string.
     /// </summary>
-    public string ToJson()
+    public string ToJson(JsonSerializerOptions? options = null)
     {
-        return JsonSerializer.Serialize(this, JsonOptions);
+        return JsonSerializer.Serialize(this, options ?? JsonOptions);
     }
 
     /// <summary>
     /// Deserialize a JSON string into a MapData instance.
     /// </summary>
-    public static MapData FromJson(string json)
+    public static MapData FromJson(string json, JsonSerializerOptions? options = null)
     {
         if (string.IsNullOrWhiteSpace(json))
             throw new ArgumentException("JSON string cannot be null or empty.", nameof(json));
 
-        return JsonSerializer.Deserialize<MapData>(json, JsonOptions)
+        return JsonSerializer.Deserialize<MapData>(json, options ?? JsonOptions)
                       ?? throw new InvalidOperationException("Failed to deserialize MapData: result was null.");
     }
 
