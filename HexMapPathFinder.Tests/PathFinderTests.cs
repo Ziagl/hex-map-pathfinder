@@ -8,6 +8,17 @@ namespace com.hexagonsimulations.HexMapPathFinder.Tests;
 public sealed class PathFinderTests
 {
     [TestMethod]
+    public void GetCostMap()
+    {  
+        List<int> costMap = new() { 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1 };
+        var grid = HexGrid.InitializeGrid<Tile>(4, 4);
+        HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
+        var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
+        var retrievedCostMap = pathFinder.GetCostMap(0);
+        CollectionAssert.AreEqual(costMap, retrievedCostMap);
+    }
+
+    [TestMethod]
     public void ComputePath()
     {
         List<int> costMap = new() { 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1 };

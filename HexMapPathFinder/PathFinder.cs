@@ -40,6 +40,20 @@ public class PathFinder
     }
 
     /// <summary>
+    /// Gets used cost map for given layer.
+    /// </summary>
+    /// <param name="layer">Layer of needed cost map.</param>
+    /// <returns>A list of cost values for whole map layer.</returns>
+    public List<int> GetCostMap(int layer)
+    {
+        if (layer < 0 || layer >= _map.Map.Count)
+        {
+            return new List<int>();
+        }
+        return _map.Map[layer];
+    }
+
+    /// <summary>
     /// Computes path with lowest costs from start to end (A* algorithm).
     /// </summary>
     /// <param name="start">start coordinates</param>
