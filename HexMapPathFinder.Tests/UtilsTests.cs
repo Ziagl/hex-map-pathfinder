@@ -22,6 +22,6 @@ public sealed class UtilsTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(1, 1, -2) };
         var neighbors = tile.Neighbors(grid, 4, 4);
         var walkableNeighbors = Utils.WalkableNeighbors(neighbors, costMap, 4);
-        Assert.AreEqual(3, walkableNeighbors.Count);
+        Assert.HasCount(3, walkableNeighbors);
     }
 }

@@ -26,7 +26,7 @@ public sealed class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var path = pathFinder.ComputePath(new CubeCoordinates(0, 0, 0), new CubeCoordinates(2, 3, -5), 0);
-        Assert.AreEqual(7, path.Count);
+        Assert.HasCount(7, path);
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public sealed class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var path = pathFinder.ComputePathOffsetCoordinates(new OffsetCoordinates(0, 0), new OffsetCoordinates(3, 3), 0);
-        Assert.AreEqual(7, path.Count);
+        Assert.HasCount(7, path);
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public sealed class PathFinderTests
         {
             var path = pathFinder.ComputePath(new CubeCoordinates(0, 0, 0), new CubeCoordinates(1, 1, -2), 0, blockingObstacles);
             Assert.AreNotEqual(path[1], new CubeCoordinates(1, 0, -1), "Obstacle is part of path.");
-            Assert.AreEqual(3, path.Count);
+            Assert.HasCount(3, path);
         }
     }
 
@@ -65,7 +65,7 @@ public sealed class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var path = pathFinder.ComputePathOffsetCoordinates(new OffsetCoordinates(0, 0), new OffsetCoordinates(3, 3), 0);
-        Assert.AreEqual(6, path.Count);
+        Assert.HasCount(6, path);
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public sealed class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var path = pathFinder.ComputePathOffsetCoordinates(new OffsetCoordinates(0, 0), new OffsetCoordinates(3, 3), 0);
-        Assert.AreEqual(0, path.Count);
+        Assert.IsEmpty(path);
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public sealed class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0);
-        Assert.AreEqual(6, reachableTiles.Count);
+        Assert.HasCount(6, reachableTiles);
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public sealed class PathFinderTests
         var blockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1) };
         var nonBlockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(0, 0, 0), new CubeCoordinates(0, 1, -1) };
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 2, 0, nonBlockingObstacles, blockingObstacles);
-        Assert.AreEqual(3, reachableTiles.Count);
+        Assert.HasCount(3, reachableTiles);
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public sealed class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(1, 1, -2), 2, 0);
-        Assert.AreEqual(11, reachableTiles.Count);
+        Assert.HasCount(11, reachableTiles);
     }
 
     [TestMethod]
@@ -127,7 +127,7 @@ public sealed class PathFinderTests
             new CubeCoordinates(2, 2, -4),
             new CubeCoordinates(-1, 2, -1)
         });
-        Assert.AreEqual(3, attackableTiles.Count);
+        Assert.HasCount(3, attackableTiles);
         attackableTiles = pathFinder.AttackableTiles(new CubeCoordinates(0, 0, 0), 0, 2, 0, new List<CubeCoordinates>(), new List<CubeCoordinates>()
         {
             new CubeCoordinates(1, 0, -1),
@@ -135,13 +135,13 @@ public sealed class PathFinderTests
             new CubeCoordinates(2, 2, -4),
             new CubeCoordinates(-1, 2, -1)
         });
-        Assert.AreEqual(0, attackableTiles.Count, $"With maxCost there should not be any attackable tiles, but found {attackableTiles.Count}");
+        Assert.IsEmpty(attackableTiles, $"With maxCost there should not be any attackable tiles, but found {attackableTiles.Count}");
         // test complex case which leads to errors
         var blockingObstacles = new List<CubeCoordinates>() { new CubeCoordinates(1, 0, -1), new CubeCoordinates(2, 1, -3), 
                                                               new CubeCoordinates(0, 2, -2), new CubeCoordinates(1, 2, -3) };
         var nonBlockingObstacles = new List<CubeCoordinates>() { };
         attackableTiles = pathFinder.AttackableTiles(new CubeCoordinates(1, 1, -2), 2, 1, 0, nonBlockingObstacles, blockingObstacles);
-        Assert.AreEqual(4, attackableTiles.Count);
+        Assert.HasCount(4, attackableTiles);
     }
 
     [TestMethod]
@@ -152,7 +152,7 @@ public sealed class PathFinderTests
         HexTile tile = new HexTile() { Coordinates = new CubeCoordinates(0, 0, 0) };
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 4, 4);
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(1, 1, -2), 2, 1);
-        Assert.AreEqual(0, reachableTiles.Count);
+        Assert.IsEmpty(reachableTiles);
     }
 
     [TestMethod]
@@ -161,12 +161,12 @@ public sealed class PathFinderTests
         var pathFinder = new PathFinder(new List<List<int>>(), 46, 74);
         var baseCoordinate = new CubeCoordinates(0, 0, 0);
         var neighborCoordinates = pathFinder.NeighborTiles(baseCoordinate);
-        Assert.AreEqual(2, neighborCoordinates.Count);
+        Assert.HasCount(2, neighborCoordinates);
         CollectionAssert.Contains(neighborCoordinates, new CubeCoordinates(1, 0, -1));
         CollectionAssert.Contains(neighborCoordinates, new CubeCoordinates(0, 1, -1));
         baseCoordinate = new CubeCoordinates(1, 1, -2);
         neighborCoordinates = pathFinder.NeighborTiles(baseCoordinate);
-        Assert.AreEqual(6, neighborCoordinates.Count);
+        Assert.HasCount(6, neighborCoordinates);
         CollectionAssert.Contains(neighborCoordinates, new CubeCoordinates(1, 0, -1));
         CollectionAssert.Contains(neighborCoordinates, new CubeCoordinates(0, 1, -1));
         CollectionAssert.Contains(neighborCoordinates, new CubeCoordinates(2, 0, -2));
@@ -182,7 +182,7 @@ public sealed class PathFinderTests
         var pathFinder = new PathFinder(new List<List<int>>() { costMap }, 12, 12);
         var baseCoordinate = new OffsetCoordinates(5, 5).ToCubic();
         var reachableTiles = pathFinder.ReachableTiles(baseCoordinate, 3, 0);
-        Assert.AreEqual(36, reachableTiles.Count);
+        Assert.HasCount(36, reachableTiles);
     }
 
     [TestMethod]
@@ -195,7 +195,7 @@ public sealed class PathFinderTests
                                              new CubeCoordinates(-1, 2, -1),
                                              new CubeCoordinates(-1, 3, -2) };
         var weightedPath = pathFinder.CreateWeightedPath(path, 0);
-        Assert.AreEqual(4, weightedPath.Count);
+        Assert.HasCount(4, weightedPath);
         Assert.AreEqual(3, weightedPath[2].Cost);
     }
 
@@ -212,12 +212,12 @@ public sealed class PathFinderTests
         };
         var pathFinder = new PathFinder(new List<List<int>>() { costs }, new List<List<TileProperty>>() { properties }, 5, 5);
         var reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(0, 0, 0), 4, 0);
-        Assert.AreEqual(14, reachableTiles.Count);
+        Assert.HasCount(14, reachableTiles);
         reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(2, 0, 0), 4, 0);
-        Assert.AreEqual(16, reachableTiles.Count);
+        Assert.HasCount(16, reachableTiles);
         reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(4, 0, 0), 4, 0);
-        Assert.AreEqual(9, reachableTiles.Count);
+        Assert.HasCount(9, reachableTiles);
         reachableTiles = pathFinder.ReachableTiles(new CubeCoordinates(3, 0, 0), 4, 0);
-        Assert.AreEqual(10, reachableTiles.Count);
+        Assert.HasCount(10, reachableTiles);
     }
 }
